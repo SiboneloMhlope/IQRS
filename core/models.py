@@ -41,3 +41,23 @@ class Requirements(models.Model):
     class Meta:
         managed = False
         db_table = 'requirements'
+
+class RequirementRules(models.Model):
+    rule_id = models.AutoField(primary_key=True)
+    programme = models.ForeignKey(Programmes, models.DO_NOTHING)
+    rule_description = models.CharField(max_length=255, null=True, blank=True)
+    required_count = models.IntegerField(default=1)
+    
+    class Meta:
+        managed = False
+        db_table = 'requirement_rules'
+
+class RequirementOptions(models.Model):
+    option_id = models.AutoField(primary_key=True)
+    rule = models.ForeignKey(RequirementRules, models.DO_NOTHING, db_column='rule_id')
+    subject = models.ForeignKey(Subjects, models.DO_NOTHING)
+    minimum_level = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'requirement_options'
