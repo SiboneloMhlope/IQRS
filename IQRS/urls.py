@@ -17,10 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from core.views import recommend
+from core.views import chat, recommend
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/recommend/", recommend),
+    path("api/chat/", chat),
 ]
