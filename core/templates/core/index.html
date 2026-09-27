@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIZULU Course Finder</title>
+<link rel="icon" href="assets/unizulu-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+{% load static %}
+<link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="app-header">
+    <div class="brand">
+      <img src="assets/unizulu-logo.png" alt="University of Zululand emblem" class="brand-logo">
+      <div class="brand-text">
+        <h1 data-i18n="appTitle">UNIZULU Course Finder</h1>
+        <p data-i18n="appSubtitle">University of Zululand &middot; Umeluleki Wezifundo</p>
+      </div>
+    </div>
+    <div class="lang-toggle" role="group" aria-label="Language selection">
+      <button class="lang-btn active" data-lang="en" id="langEn">EN</button>
+      <button class="lang-btn" data-lang="zu" id="langZu">ZU</button>
+    </div>
+  </header>
+
+  <!-- ===================== TABS ===================== -->
+  <nav class="tab-bar" role="tablist">
+    <button class="tab-btn active" data-tab="chat" role="tab" aria-selected="true">
+      <span class="tab-icon">💬</span><span data-i18n="tabChat">Chat</span>
+    </button>
+    <button class="tab-btn" data-tab="marks" role="tab" aria-selected="false">
+      <span class="tab-icon">📘</span><span data-i18n="tabMarks">My Marks</span>
+    </button>
+    <button class="tab-btn" data-tab="feedback" role="tab" aria-selected="false">
+      <span class="tab-icon">📝</span><span data-i18n="tabFeedback">Feedback</span>
+    </button>
+  </nav>
+
+  <main class="panel-wrap">
+
+    <!-- ===================== CHAT PANEL ===================== -->
+    <section class="panel active" id="panel-chat">
+      <div class="chat-card">
+        <div class="chat-window" id="chatWindow">
+          <div class="msg bot">
+            <img class="avatar" src="assets/unizulu-logo.png" alt="">
+            <div class="bubble">
+              <p><strong data-i18n="greetTitle">Sawubona! 👋 Welcome to the UNIZULU Course Finder</strong></p>
+              <p data-i18n="greetBody">I'm here to help you explore study options at the <strong>University of Zululand</strong> across all 4 faculties:</p>
+              <p class="faculty-list">
+                📚 <span data-i18n="facArts">Faculty of Arts</span>&nbsp;&nbsp;
+                💼 <span data-i18n="facCommerce">Faculty of Commerce, Administration &amp; Law</span>&nbsp;&nbsp;
+                🎓 <span data-i18n="facEdu">Faculty of Education</span>&nbsp;&nbsp;
+                🔬 <span data-i18n="facSci">Faculty of Science, Agriculture &amp; Engineering</span>
+              </p>
+              <p><strong data-i18n="howHelp">How I can help you:</strong></p>
+              <ul>
+                <li data-i18n="help1">Answer questions about programmes and entry requirements</li>
+                <li data-i18n="help2">Recommend programmes based on your high school marks</li>
+                <li data-i18n="help3">Respond in both English and isiZulu</li>
+              </ul>
+              <p class="hint" data-i18n="hint">💡 Start by uploading your marks in the "My Marks" tab, then ask me to recommend programmes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-replies" id="quickReplies">
+          <button class="chip" data-q="programmes" data-i18n="q1">What programmes can I study at UNIZULU? ›</button>
+          <button class="chip" data-q="aps-law" data-i18n="q2">What are the APS requirements for Law? ›</button>
+          <button class="chip" data-q="zulu" data-i18n="q3">Yiziphi izifundo engingafunda zona? ›</button>
+          <button class="chip" data-q="recommend" data-i18n="q4">Recommend programmes based on my marks ›</button>
+        </div>
+
+        <form class="chat-input-row" id="chatForm">
+          <input type="text" id="chatInput" data-i18n-ph="chatPlaceholder" placeholder="Ask about UNIZULU programmes... / Buza nge-UNIZULU..." autocomplete="off">
+          <button type="submit" class="send-btn" aria-label="Send">➤</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== MY MARKS PANEL ===================== -->
+    <section class="panel" id="panel-marks">
+      <div class="card">
+        <h2 data-i18n="marksTitle">Upload Your Marks</h2>
+        <p class="muted" data-i18n="marksDesc">Enter your NSC (matric) subject levels so the chatbot can recommend programmes you qualify for at UNIZULU.</p>
+
+        <div class="saved-banner" id="savedBanner" hidden>
+          ✅ <span data-i18n="savedFor">Marks saved for</span> <strong id="savedName"></strong> &bull; APS: <strong id="savedAps"></strong>
+        </div>
+
+        <form id="marksForm">
+          <div class="field-grid two-col">
+            <label class="field">
+              <span data-i18n="fullName">Full Name *</span>
+              <input type="text" id="fullName" placeholder="e.g. Sipho Nkosi" required>
+            </label>
+            <label class="field">
+              <span data-i18n="email">Email</span>
+              <input type="email" id="email" placeholder="e.g. sipho@email.com">
+            </label>
+          </div>
+
+          <div class="subject-header">
+            <h3 data-i18n="subjectLevels">Subject Levels (NSC)</h3>
+            <span class="aps-badge">📋 APS: <strong id="apsScore">0</strong> <span id="apsCount">(0 subjects)</span></span>
+          </div>
+          <p class="muted small" data-i18n="subjectDesc">Select achievement levels (1–7) for the subjects you took. Only fill in subjects relevant to you.</p>
+
+          <div class="field-grid three-col" id="subjectGrid"></div>
+
+          <button type="submit" class="primary-btn" data-i18n="saveMarks">💾 Save My Marks</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== FEEDBACK PANEL ===================== -->
+    <section class="panel" id="panel-feedback">
+      <div class="card">
+        <h2 data-i18n="fbTitle">Share Your Feedback</h2>
+        <p class="muted" data-i18n="fbDesc">Help us improve the UNIZULU Course Finder. Report issues, suggest features, or let us know if any information is incorrect.</p>
+
+        <h3 class="field-label" data-i18n="fbType">Feedback Type</h3>
+        <div class="pill-group" id="feedbackType">
+          <button type="button" class="pill" data-type="bug" data-i18n="fbBug">Bug Report</button>
+          <button type="button" class="pill" data-type="suggestion" data-i18n="fbSuggestion">Suggestion</button>
+          <button type="button" class="pill" data-type="incorrect" data-i18n="fbIncorrect">Incorrect Info</button>
+          <button type="button" class="pill active" data-type="general" data-i18n="fbGeneral">General</button>
+        </div>
+
+        <h3 class="field-label" data-i18n="fbRating">Rating *</h3>
+        <div class="stars" id="starRating">
+          <span class="star" data-val="1">☆</span>
+          <span class="star" data-val="2">☆</span>
+          <span class="star" data-val="3">☆</span>
+          <span class="star" data-val="4">☆</span>
+          <span class="star" data-val="5">☆</span>
+        </div>
+
+        <label class="field" style="margin-top:1.25rem;">
+          <span data-i18n="fbMessage">Your Message *</span>
+          <textarea id="fbMessage" rows="4" data-i18n-ph="fbPlaceholder" placeholder="Tell us what you think or what we can improve..." required></textarea>
+        </label>
+
+        <button type="button" class="primary-btn" id="submitFeedback" data-i18n="fbSubmit">📨 Submit Feedback</button>
+        <p class="toast" id="fbToast" hidden></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span data-i18n="footer">4CPS212 Group Project &middot; University of Zululand &mdash; A Node for African Thought</span>
+  </footer>
+</div>
+
+<script src="{% static 'core/script.js' %}"></script>
+</body>
+</html>

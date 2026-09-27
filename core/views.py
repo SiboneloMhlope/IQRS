@@ -4,8 +4,13 @@ import re
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from django.shortcuts import render
 from core.models import Programmes, RequirementRules
 from core.services.recommender import get_recommendations
+
+
+def home(request):
+    return render(request, "core/index.html")
 
 
 def extract_marks(message):
