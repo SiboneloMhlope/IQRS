@@ -1,0 +1,1 @@
+Intelligent-Qualification-Recommendation-System-chatbot This chatbot project will use an Intelligent Qualification Recommendation System to recommend programs to high school learners without the need for them to having to manually look through the entire faculty handbook in search of a course of interest
